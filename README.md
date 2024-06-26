@@ -1,0 +1,2 @@
+# flutter_cartesian_chart_directional_zooming
+flutter_cartesian_chart_directional_zooming
