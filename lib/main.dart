@@ -28,34 +28,19 @@ class _DirectionalZooming extends StatefulWidget {
 }
 
 class _DirectionalZoomingState extends State<_DirectionalZooming> {
-  final List<_ChartData> _data1 = [
-    _ChartData('Jan', 35),
-    _ChartData('Feb', 28),
-    _ChartData('Mar', 34),
-    _ChartData('Apr', 32),
-    _ChartData('May', 40),
-    _ChartData('Jun', 35),
-    _ChartData('Jul', 28),
-    _ChartData('Aug', 34),
-    _ChartData('Sept', 32),
-    _ChartData('Oct', 40),
-    _ChartData('nov', 32),
-    _ChartData('dec', 40),
-  ];
-
-  final List<_ChartData> _data2 = [
-    _ChartData('Jan', 7),
-    _ChartData('Feb', 10),
-    _ChartData('Mar', 18),
-    _ChartData('Apr', 12),
-    _ChartData('May', 16),
-    _ChartData('Jun', 9),
-    _ChartData('Jul', 11),
-    _ChartData('Aug', 7),
-    _ChartData('Sept', 3),
-    _ChartData('Oct', 11),
-    _ChartData('nov', 15),
-    _ChartData('dec', 10),
+  final List<_ChartData> _chartData = [
+    _ChartData('Jan', 35, 7),
+    _ChartData('Feb', 28, 10),
+    _ChartData('Mar', 34, 18),
+    _ChartData('Apr', 32, 12),
+    _ChartData('May', 40, 16),
+    _ChartData('Jun', 35, 9),
+    _ChartData('Jul', 28, 11),
+    _ChartData('Aug', 34, 7),
+    _ChartData('Sep', 32, 3),
+    _ChartData('Oct', 40, 11),
+    _ChartData('nov', 32, 15),
+    _ChartData('dec', 40, 10),
   ];
 
   CategoryAxis xAxis = const CategoryAxis();
@@ -73,15 +58,15 @@ class _DirectionalZoomingState extends State<_DirectionalZooming> {
               zoomPanBehavior: _CustomZoomPanBehavior(xAxis, yAxis),
               series: <CartesianSeries<_ChartData, String>>[
                 LineSeries<_ChartData, String>(
-                  dataSource: _data1,
+                  dataSource: _chartData,
                   xValueMapper: (_ChartData sales, int index) => sales.x,
-                  yValueMapper: (_ChartData sales, int index) => sales.y,
+                  yValueMapper: (_ChartData sales, int index) => sales.y1,
                   markerSettings: const MarkerSettings(isVisible: true),
                 ),
                 LineSeries<_ChartData, String>(
-                  dataSource: _data2,
+                  dataSource: _chartData,
                   xValueMapper: (_ChartData sales, int index) => sales.x,
-                  yValueMapper: (_ChartData sales, int index) => sales.y,
+                  yValueMapper: (_ChartData sales, int index) => sales.y2,
                   markerSettings: const MarkerSettings(isVisible: true),
                 )
               ],
@@ -98,10 +83,10 @@ class _DirectionalZoomingState extends State<_DirectionalZooming> {
 }
 
 class _ChartData {
-  _ChartData(this.x, this.y);
-
+  _ChartData(this.x, this.y1, this.y2);
   final String x;
-  final double y;
+  final double y1;
+  final double y2;
 }
 
 class _CustomZoomPanBehavior extends ZoomPanBehavior {
@@ -262,9 +247,9 @@ class _CustomZoomPanBehavior extends ZoomPanBehavior {
     if (manipulation == null) {
       return 0.5;
     }
+
     double origin;
     const double plotOffset = 0;
-
     if (isHorizontal) {
       origin = (manipulation.dx - plotOffset) / bounds.width;
     } else {
